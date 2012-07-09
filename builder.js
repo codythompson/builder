@@ -18,6 +18,20 @@ var _BUILDER_ = function (templateEle) {
         return cur[0];
     }
 
+    this.insert = function(elesToInsert, path, beforeIntoAfter) {
+        var insertFunc;
+        if (beforeIntoAfter < 0) {
+            insertFunc = this.insertBefore;
+        }
+        else if (beforeIntoAfter > 0) {
+            insertFunc = this.insertAfter;
+        }
+        else {
+            insertFunc = this.insertInto;
+        }
+        insertFunc(elestoInsert, path);
+    }
+
     this.insertBefore = function(elesToInsert, path) {
         if (path === null || !(path instanceof Array) ||
                 path.length == 0 || !(elesToInsert instanceof Array) ||
@@ -60,31 +74,6 @@ var _BUILDER_ = function (templateEle) {
         for (var j = 0; j < elesToInsert.length; j++) {
             afterEle.after(elesToInsert[j]);
             afterEle = $(elesToInsert[j]);
-        }
-    }
-
-    this.buildEles = function (templatePath, textContPath, text) {
-        if (text instanceof Array) {
-            if (text.length == 0) {
-                return null;
-            } else if (text.length == 1) {
-                this.buildEles(templatePath, textContPath, text[0]);
-            }
-
-            for (var i = text.length - 1; i > 0; i--) {
-                var nextEle = this.getElementAt(templatePath);
-                nextEle = $(nextEle).clone();
-
-                var textNode = document.createTextNode(text[i]);
-                this.insertInto([textNode], textContPath);
-
-                this.insertBefore([nextEle], templatePath);
-            }
-            var textNode = document.createTextNode(text[0]);
-            this.insertInto([textNode], textContPath);
-        } else {
-            var textNode = document.createTextNode(text);
-            this.insertInto([textNode], textContPath);
         }
     }
 }
