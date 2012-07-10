@@ -18,6 +18,11 @@ var _BUILDER_ = function (templateEle) {
         return cur[0];
     }
 
+    this.clearElementAt = function(path) {
+        var eleToClear = this.getElementAt(path);
+        $(eleToClear).empty();
+    }
+
     this.insert = function(elesToInsert, path, beforeIntoAfter) {
         var insertFunc;
         if (beforeIntoAfter < 0) {
